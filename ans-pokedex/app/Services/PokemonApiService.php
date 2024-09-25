@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\PokemonDetailsDTO;
 use App\DTOs\PokemonDTO;
 use Exception;
 use Illuminate\Support\Collection;
@@ -31,7 +32,7 @@ class PokemonApiService
             });
     }
 
-    public function getPokemonByName(string $name): PokemonDTO
+    public function getPokemonByName(string $name): PokemonDetailsDTO
     {
         $response = Http::get($this->baseUrl . 'pokemon/' . $name);
 
@@ -39,8 +40,6 @@ class PokemonApiService
             throw new Exception("Failed to retrieve pokemon by name");
         }
 
-        dd($response);
-
-        return PokemonDTO::fromApiResponse($response->json());
+        return PokemonDetailsDTO::fromApiResponse($response->json());
     }
 }
