@@ -15,6 +15,7 @@ class RetrieveAllPokemonController extends BasePokemonController
     {
         $pokemon = null;
         try {
+            // TODO paginate the results
             if (!Cache::has("pokemon")) {
                 $pokemonData = $this->pokemonApiService->getAllPokemon();
                 Cache::put("pokemon", $pokemonData, 3600);
