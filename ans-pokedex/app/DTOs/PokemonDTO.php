@@ -2,7 +2,7 @@
 
 namespace App\DTOs;
 
-class PokemonDTO
+class PokemonDTO implements PokemonDTOInterface
 {
     public function __construct(
         private string $name,
