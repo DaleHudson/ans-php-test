@@ -15,6 +15,7 @@ class SearchPokemonController extends BasePokemonController
         ]);
 
         try {
+            // TODO cache results here so we don't have to hit the api all the time
             $pokemon = $this->pokemonApiService->getPokemonByName($request->name);
         } catch (Exception $e) {
             dd($e->getMessage());
