@@ -2,6 +2,8 @@
 
 namespace App\DTOs;
 
+use Illuminate\Support\Collection;
+
 class PokemonDetailsDTO implements PokemonDTOInterface
 {
     public function __construct(
@@ -9,17 +11,23 @@ class PokemonDetailsDTO implements PokemonDTOInterface
         private string $image,
         private int $height,
         private int $weight,
-        private string $type
+        private string $type,
+        private Collection $abilities
     ){}
 
     public static function fromApiResponse(array $response): self
     {
+        $abilities = collect($response['abilities'])->map(function ($ability) {
+            return AbilityDTO::fromApiResponse($ability);
+        });
+
         return new self(
             $response['name'],
             $response['sprites']['other']['official-artwork']['front_default'],
             $response['height'],
             $response['weight'],
-            $response['types'][0]['type']['name']
+            $response['types'][0]['type']['name'],
+            $abilities
         );
     }
 
@@ -46,5 +54,10 @@ class PokemonDetailsDTO implements PokemonDTOInterface
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function getAbilities(): Collection
+    {
+        return $this->abilities;
     }
 }
